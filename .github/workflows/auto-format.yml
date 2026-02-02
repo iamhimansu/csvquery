@@ -1,0 +1,22 @@
+name: Auto Format
+
+on: [push]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make format
+      - run: make test
+      
+      - name: Auto commit
+        if: success()
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@example.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "chore: format"
+            git push
+          fi
