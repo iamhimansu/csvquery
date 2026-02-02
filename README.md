@@ -53,7 +53,7 @@ Benchmarks on a **10GB CSV** dataset (18M rows) on MacBook M3 Max:
 
 ### PHP Wrapper
 ```bash
-composer require iamhimansu/csvquery
+composer require csvquery/csvquery
 ```
 
 ### Go Engine
@@ -65,7 +65,7 @@ make build
 ## 🚥 Quick Start (PHP)
 
 ```php
-use iamhimansu\csvquery\CsvQuery;
+use CsvQuery\CsvQuery;
 
 $csv = new CsvQuery('data.csv');
 
@@ -99,4 +99,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) to get started.
 
 ---
-**Developed with ❤️ by [Himansu](https://github.com/iamhimansu)**
+**Developed with ❤️ by [CsvQuery Team](https://github.com/csvquery)**

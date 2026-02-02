@@ -6,7 +6,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use iamhimansu\csvquery\CsvQuery;
+use CsvQuery\CsvQuery;
 
 $csvPath = __DIR__ . '/../tests/student_results.csv';
 $csv = new CsvQuery($csvPath);

@@ -1,6 +1,6 @@
 package index
 
-import "github.com/iamhimansu/csvquery/pkg/csvquery/types"
+import "github.com/csvquery/csvquery/pkg/csvquery/types"
 
 // Index defines the interface for an index lookup
 type Index interface {

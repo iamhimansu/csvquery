@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/types"
+	"github.com/csvquery/csvquery/pkg/csvquery/types"
 )
 
 type Aggregator struct {

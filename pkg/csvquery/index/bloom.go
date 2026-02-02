@@ -6,7 +6,7 @@ import (
 	"hash/crc32"
 	"os"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/storage"
+	"github.com/csvquery/csvquery/pkg/csvquery/storage"
 )
 
 type BloomFilter struct {

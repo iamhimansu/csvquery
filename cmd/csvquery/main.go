@@ -7,9 +7,9 @@ import (
 	"os"
 	"runtime/pprof"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/index"
-	"github.com/iamhimansu/csvquery/pkg/csvquery/query"
-	"github.com/iamhimansu/csvquery/pkg/csvquery/types"
+	"github.com/csvquery/csvquery/pkg/csvquery/index"
+	"github.com/csvquery/csvquery/pkg/csvquery/query"
+	"github.com/csvquery/csvquery/pkg/csvquery/types"
 )
 
 func main() {

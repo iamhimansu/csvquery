@@ -1,5 +1,5 @@
 {
-    "name": "iamhimansu/csvquery",
+    "name": "csvquery/csvquery",
     "description": "High-performance CSV query library with Go SIMD engine",
     "type": "library",
     "license": "MIT",

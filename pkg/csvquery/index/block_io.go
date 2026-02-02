@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/storage"
-	"github.com/iamhimansu/csvquery/pkg/csvquery/types"
+	"github.com/csvquery/csvquery/pkg/csvquery/storage"
+	"github.com/csvquery/csvquery/pkg/csvquery/types"
 	"github.com/pierrec/lz4/v4"
 )
 

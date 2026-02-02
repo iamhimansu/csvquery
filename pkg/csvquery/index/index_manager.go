@@ -12,8 +12,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/parser"
-	"github.com/iamhimansu/csvquery/pkg/csvquery/types"
+	"github.com/csvquery/csvquery/pkg/csvquery/parser"
+	"github.com/csvquery/csvquery/pkg/csvquery/types"
 )
 
 type IndexerConfig struct {

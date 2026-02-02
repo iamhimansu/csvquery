@@ -11,8 +11,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/parser/simd"
-	"github.com/iamhimansu/csvquery/pkg/csvquery/storage"
+	"github.com/csvquery/csvquery/pkg/csvquery/parser/simd"
+	"github.com/csvquery/csvquery/pkg/csvquery/storage"
 )
 
 // SIMDParser reads CSV files efficiently using Mmap and SIMD parallelism

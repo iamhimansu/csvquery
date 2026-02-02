@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/types"
+	"github.com/csvquery/csvquery/pkg/csvquery/types"
 )
 
 func ParseCondition(data []byte) (*types.Condition, error) {

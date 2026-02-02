@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/types"
+	"github.com/csvquery/csvquery/pkg/csvquery/types"
 )
 
 // DiskIndex implements Index using on-disk compressed blocks

@@ -1,4 +1,4 @@
-module github.com/iamhimansu/csvquery
+module github.com/csvquery/csvquery
 
 go 1.21
 

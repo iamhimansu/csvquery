@@ -1,6 +1,6 @@
 # API Reference
 
-## PHP API (`iamhimansu\csvquery`)
+## PHP API (`CsvQuery`)
 
 ### `CsvQuery`
 

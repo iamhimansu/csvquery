@@ -7,14 +7,14 @@ This guide will help you get CsvQuery up and running in your project.
 ### Via PHP (Composer)
 Add CsvQuery to your PHP project:
 ```bash
-composer require iamhimansu/csvquery
+composer require csvquery/csvquery
 ```
 
 ### Build the Go Engine
 The PHP wrapper requires a compiled Go binary to handle the heavy lifting.
 ```bash
 # Clone the repository if you haven't already
-git clone https://github.com/iamhimansu/csvquery.git
+git clone https://github.com/csvquery/csvquery.git
 cd csvquery
 
 # Build the binary
@@ -27,7 +27,7 @@ The binary will be created in `bin/csvquery`.
 In your PHP code, initialize the `CsvQuery` object:
 
 ```php
-use iamhimansu\csvquery\CsvQuery;
+use CsvQuery\CsvQuery;
 
 $csv = new CsvQuery('/path/to/your/data.csv', [
     'indexDir' => '/path/to/save/indexes',

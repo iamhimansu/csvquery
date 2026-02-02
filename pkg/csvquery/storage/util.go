@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"io"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/types"
+	"github.com/csvquery/csvquery/pkg/csvquery/types"
 )
 
 // ReadRecord reads a single IndexRecord into the provided pointer

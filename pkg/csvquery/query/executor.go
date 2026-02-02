@@ -13,9 +13,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/iamhimansu/csvquery/pkg/csvquery/index"
-	"github.com/iamhimansu/csvquery/pkg/csvquery/storage"
-	"github.com/iamhimansu/csvquery/pkg/csvquery/types"
+	"github.com/csvquery/csvquery/pkg/csvquery/index"
+	"github.com/csvquery/csvquery/pkg/csvquery/storage"
+	"github.com/csvquery/csvquery/pkg/csvquery/types"
 )
 
 type Executor struct {
