@@ -1,30 +1,28 @@
 .PHONY: build test bench format clean help
 
 BINARY_NAME=csvquery
-GO_DIR=go
+GO_DIR=.
 CMD_DIR=$(GO_DIR)/cmd/csvquery
 
 # Build targets
 build:
-	cd $(GO_DIR) && go build -ldflags="-s -w" -o ../bin/$(BINARY_NAME) ./cmd/csvquery
+	go build -ldflags="-s -w" -o bin/$(BINARY_NAME) ./cmd/csvquery
 
 test:
-	cd $(GO_DIR) && go test ./...
-	composer test
+	go test ./...
+	# composer test # script not defined yet
 
 bench:
-	cd $(GO_DIR) && go test -bench=. -benchmem ./...
-	php examples/benchmark_basic.php
+	go test -bench=. -benchmem ./...
+	# php examples/benchmark_basic.php # file missing
 
 format:
-	cd $(GO_DIR) && go fmt ./...
-	vendor/bin/php-cs-fixer fix src/
+	go fmt ./...
+	# vendor/bin/php-cs-fixer fix src/
 
 clean:
-	rm -rf bin/
-	rm -f $(GO_DIR)/$(BINARY_NAME)
+	rm -rf bin/$(BINARY_NAME)
 	rm -rf vendor/
-	rm -rf go/vendor/
 
 help:
 	@echo "Available commands:"

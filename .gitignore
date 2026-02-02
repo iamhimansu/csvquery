@@ -5,7 +5,7 @@
 *.exe
 *.dll
 bin/
-csvquery
+/csvquery
 csvquery_darwin*
 csvquery_linux*
 csvquery_windows*

@@ -12,13 +12,13 @@
 - **SIMD-Accelerated Parsing**: Uses AVX2/SSE4.2 instructions for hardware-speed CSV scanning.
 - **High-Performance Indexing**: Single and composite column indexes with O(1) lookup.
 - **Fluent PHP API**: Query massive CSVs using a familiar, chainable QueryBuilder.
-- **Sidecar Architecture**: Go daemon handles the heavy lifting via Unix Domain Sockets.
+- **Sidecar Architecture**: Go binary handles the heavy lifting via StdIO pipes.
 - **Zero-Allocation Hot Paths**: Optimized memory management for extreme throughput.
 - **Aggregations & Filters**: Built-in support for `WHERE`, `COUNT`, `SUM`, `DISTINCT`, and more.
 
 ## 🏗️ Architecture
 
-CsvQuery operates as a sidecar. Your PHP application communicates with a high-performance Go daemon.
+CsvQuery operates as a high-performance CLI sidecar. Your PHP application communicates with the Go binary via standard I/O pipes.
 
 ```mermaid
 graph TD
@@ -26,9 +26,9 @@ graph TD
         QB[QueryBuilder] --> EB[Executor]
     end
 
-    subgraph "Go Sidecar (Daemon)"
-        EB <== "JSON over UDS" ==> SD[Server]
-        SD --> QE[Query Engine]
+    subgraph "Go Sidecar (Binary)"
+        EB <== "JSON/Text over StdIO" ==> CLI[CLI Interface]
+        CLI --> QE[Query Engine]
         QE --> IDX[Index Manager]
         QE --> PAR[SIMD Parser]
     end
