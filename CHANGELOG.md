@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-02-02
+## [1.0.0] - 2026-02-02
 
 ### Added
 - Initial public release of CsvQuery.
@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Query Engine**: Support for `WHERE` (operators: `=`, `>`, `<`, `>=`, `<=`, `IN`, `LIKE`), `LIMIT`, `ORDER BY`.
 - **Aggregations**: Optimized `COUNT`, `SUM`, `DISTINCT`, `MIN`, `MAX`.
 - **PHP Wrapper**: Fluent QueryBuilder API with ActiveQuery pattern.
-- **Sidecar Architecture**: Go daemon handling requests over Unix Domain Sockets (UDS).
+- **Sidecar Architecture**: Go engine handling requests over StdIO pipes.
 - **Comprehensive Documentation**: Architectural overview, API reference, and development guides.
 - **Examples**: Basic queries, indexed searches, and real-world usage scenarios.
 
