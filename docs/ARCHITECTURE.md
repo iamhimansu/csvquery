@@ -4,30 +4,29 @@ CsvQuery is designed for one thing: **Extreme performance on massive CSV files.*
 
 ## System Overview
 
-The project uses a **Sidecar Architecture**, separating the high-level application logic (PHP) from the performance-critical data processing (Go).
+The project uses a **Sidecar Architecture**, separating the high-level application logic (PHP) from the performance-critical data processing (Go). Communication happens over standard input/output (StdIO) pipes.
 
 ```mermaid
 graph LR
-    PHP[PHP Application] -- "JSON/UDS" --> Go[Go Sidecar]
+    PHP[PHP Application] -- "JSON/Raw via Pipes" --> Go[Go Sidecar]
     Go -- "MMAP / SIMD" --> CSV[CSV Files]
-    Go -- "Binary" --> IDX[.cidx Indexes]
+    Go -- "Binary Search" --> IDX[.cidx Indexes]
 ```
 
-## Data Flow
+## 🔄 Query Lifecycle Flow
 
-### 1. Requesting a Query
-When you call `$query->all()` in PHP:
-1. The `QueryBuilder` serializes the query into a JSON payload.
-2. The `Executor` sends this payload over a **Unix Domain Socket (UDS)** to the Go daemon.
+The journey of a query from PHP to results involves these **8 numbered phases**:
 
-### 2. Execution (Go Engine)
-The Go engine receives the plan and proceeds as follows:
-- **Strategy Selection**: It checks if an index exists for the `WHERE` clause.
-- **Indexed Path**: If an index exists, it loads the `.cidx` footer, finds the relevant blocks, decompresses them, and fetches only the required row offsets.
-- **SIMD Path**: If no index exists, it fires up parallel workers using **SIMD (AVX2/SSE4.2)** to scan the raw CSV file for matches.
-
-### 3. Response
-Match offsets are used to read the raw data via `mmap` (zero-copy), and the results are streamed back to PHP as a JSON packet.
+1.  **[PHP] Query Definition**: User defines a query using the fluent `QueryBuilder`.
+2.  **[PHP] Payload Serialization**: The parameters (`where`, `limit`, `groupBy`) are serialized into a **JSON Request**.
+3.  **[Bridge] Process Spawn**: The PHP `Client` spawns the `bin/csvquery` Go binary and writes the JSON payload to its **STDIN**.
+4.  **[Go] Initialization**: Go unmarshals the request and prepares the environment (loading metadata and file descriptors).
+5.  **[Go] Engine Routing**: 
+    - If a matching `.cidx` exists, Go performs an **Indexed Scan** (Binary search on sparse blocks).
+    - If no index is found, Go performs a **Parallel SIMD Scan** (Multiplexed mmap chunks).
+6.  **[Go] Data Extraction**: Go uses zero-copy `mmap` to access the raw CSV data. It applies any additional filters not covered by the index.
+7.  **[Bridge] Response Streaming**: Found record markers (`offset,line`) or aggregation results are streamed back to PHP via **STDOUT**.
+8.  **[PHP] Hydration**: PHP reads the stream, closes the process, and returns a `Result` object populated with data.
 
 ## Why SIMD?
 
@@ -40,17 +39,17 @@ This approach reaches speeds of over **10GB/s** on modern hardware.
 
 ## Why Indexes? (The `.cidx` format)
 
-Indexes are stored as compressed block files. Unlike a traditional database index that might use a B-Tree, CsvQuery uses a **Sorted Block Index**:
+Indexes are stored as compressed block files using a **Sorted Block Index**:
 - Keys are sorted and grouped into 64KB blocks.
 - Blocks are compressed with **LZ4**.
 - A small "Sparse Footer" allows jumping to any key immediately.
-- This results in an index that is often **5-10x smaller** than the original data while providing O(log N) search speed.
+- Resulting indexes are often **5-10x smaller** than the original data while providing O(log N) search speed.
 
 ## Performance Characteristics
 
 - **Memory Bound**: Index creation is multi-threaded and depends on memory bandwidth.
 - **I/O Bound**: Scans are limited by disk read speed (NVMe recommended).
-- **Latency**: UDS communication adds <1ms overhead.
+- **Latency**: Process spawning adds ~10-20ms overhead; subsequent operations are sub-millisecond.
 
 ---
 Next: [Learn about the individual Components](COMPONENTS.md)
