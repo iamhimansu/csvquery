@@ -18,10 +18,10 @@ jobs:
         go-version: '1.21'
 
     - name: Install dependencies
-      run: cd go && go mod download
+      run: go mod download
 
     - name: Run Go Tests
-      run: cd go && go test -v ./...
+      run: go test -v ./...
 
   php-tests:
     runs-on: ubuntu-latest
