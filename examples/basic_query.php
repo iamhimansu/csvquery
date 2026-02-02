@@ -1,31 +1,69 @@
 <?php
-/**
- * Basic Query Example
- * Shows how to load a CSV and perform a simple query.
- */
 
-require_once __DIR__ . '/../vendor/autoload.php';
+spl_autoload_register(function ($class) {
+    $prefix = 'CsvQuery\\';
+    $base_dir = __DIR__ . '/../src/CsvQuery/';
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) return;
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+    if (file_exists($file)) {
+        require $file;
+    }
+});
 
-use iamhimansu\csvquery\CsvQuery;
+use CsvQuery\Config;
+use CsvQuery\Client;
+use CsvQuery\Executor;
 
-$csvPath = __DIR__ . '/../tests/test_data.csv';
+// Setup
+$config = new Config(__DIR__ . '/data.csv');
+$client = new Client($config);
+$executor = new Executor($client);
 
-// Initialize
-$csv = new CsvQuery($csvPath);
+// 1. Indexing (Optional but recommended)
+echo "Indexing...\n";
+try {
+    $executor->index(['department', 'role']);
+    echo "Index created.\n";
+} catch (\Exception $e) {
+    echo "Indexing failed (or already exists): " . $e->getMessage() . "\n";
+}
 
-echo "Executing query...\n";
-$start = microtime(true);
+// 2. Querying
+echo "\nQuerying Engineers...\n";
+$result = $executor->query()
+    ->where('department', 'Engineering')
+    ->get(); // Now returns Result object
 
-// Find all rows where STATUS is 'ACTIVE'
-$results = $csv->find()
-    ->where(['STATUS' => 'ACTIVE'])
-    ->limit(5)
-    ->all();
+echo "Found " . $result->count() . " records:\n";
+foreach ($result as $row) { // Iterating returns Rows
+    // $row is now ['offset', 'line']
+    // In a full implementation, Result might fetch actual data.
+    // For now, it returns offsets.
+    echo " - Row at line " . $row['line'] . "\n";
+}
 
-$end = microtime(true);
+// 3. Counting
+echo "\nCounting Sales...\n";
+$count = $executor->query()
+    ->where('department', 'Sales')
+    ->count();
+echo "Sales count: $count\n";
 
-echo "Found " . count($results) . " rows in " . round(($end - $start) * 1000, 2) . "ms\n\n";
+// 4. Aggregation
+echo "\nAvg Salary by Department...\n";
+// Note: Aggregation requires loading actual data which Executor does if config matches.
+// Our current Go implementation handles aggregation if GroupBy is set.
+$aggResult = $executor->query()
+    ->groupBy('department')
+    ->aggregate('avg', 'salary')
+    ->get(); // Result object with groups
 
-foreach ($results as $row) {
-    echo "ID: {$row['ID']} | Name: {$row['NAME']} | Status: {$row['STATUS']}\n";
+$groups = $aggResult->getGroups(); // Access raw group data
+var_dump($aggResult->toArray());
+if ($groups) {
+    print_r($groups);
+} else {
+    echo "No aggregation results.\n";
 }

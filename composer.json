@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "iamhimansu\\csvquery\\": "src/"
+            "CsvQuery\\": "src/CsvQuery/"
         }
     },
     "require-dev": {

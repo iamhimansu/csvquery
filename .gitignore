@@ -27,6 +27,9 @@ daemon.log
 stderr.log
 _updates.json
 csvquery_meta.json
+*.cidx
+*.bloom
+*_meta.json
 
 # Local / Temp
 .env
